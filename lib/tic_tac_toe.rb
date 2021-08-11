@@ -26,7 +26,7 @@ module TicTacToe
       [3, 4, 5],
       [6, 7, 8],
       [0, 4, 8],
-      [3, 4, 6],
+      [2, 4, 6],
     ];
     SIZE = 9
     DEFAULT_VALUE = ''
@@ -39,6 +39,11 @@ module TicTacToe
 
     def mark(position, symbol)
       self.set_value(position, symbol);
+    end
+
+    def valid?(position)
+      value = self.board[position].value
+      value == DEFAULT_VALUE && value.to_i.between?(0, SIZE - 1)
     end
 
     def print_board
@@ -62,7 +67,7 @@ module TicTacToe
       result
     end
 
-    def isMatched?
+    def matched?
       result = CONDITIONS.any? {|condition| is_3_equal?(condition)}
       result
     end
@@ -72,6 +77,14 @@ module TicTacToe
         @board[position].value = value;
       else
         raise "INVALID POSITION"
+      end
+    end
+
+    def isFull?
+      if self.board.all? {|cell| cell.value != DEFAULT_VALUE}
+        return true
+      else
+        return false
       end
     end
   end
@@ -86,36 +99,56 @@ module TicTacToe
       @winner = nil
     end
 
-
+    private
     def play_round(player)
       puts "#{player.name}'s turn"
+      print "Please put the position you want to mark (0-8): "
       while true do
-        print "Please put the position you want to mark (0-8): "
         position = gets.to_i
-        break if position.between?(0, 8)
+        if self.board.valid?(position)
+          break
+        else
+          print "Invalid choice, either not empty or not in range, please try again: "
+        end
       end
       self.board.mark(position, player.symbol)
       self.board.print_board
-      if(self.board.isMatched?)
-        self.winner = player
-      end
+      # if(self.board.isMatched?)
+      #   self.winner = player
+      # end
     end
 
     def annouceWinner(winner)
       puts "#{winner.name} has won the game"
     end
 
-
+    public
     def start_game
       current_player_idx = 0
-      while true do
+      until self.board.isFull? do
         current_player = self.players[current_player_idx];
         play_round(current_player)
         # stop if player won
-        break unless winner.nil?
+        # break unless winner.nil?
+        if(self.board.matched?)
+          annouceWinner(current_player);
+          break
+        end
+        if(self.board.isFull?)
+          puts "No one won this match"
+          break
+        end
         current_player_idx  = (current_player_idx + 1) % 2
       end
-      annouceWinner(current_player)
+
+      # unless winner.nil?
+      #   annouceWinner(current_player)
+      #   return
+      # elsif self.board.isFull?
+      #   puts "2 players draw"
+      # else
+        
+      # end
     end
   end
 
@@ -135,5 +168,12 @@ module TicTacToe
   end
 end
 
-new_game = TicTacToe::Game.new
-new_game.start_game
+while true do
+  new_game = TicTacToe::Game.new
+  new_game.start_game
+  print "New game?(Y/N): "
+  answer = gets.chomp
+  unless answer.match(/[Y]/i)
+    break;
+  end
+end
