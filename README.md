@@ -1,8 +1,6 @@
 # TicTacToe
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/tic_tac_toe`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+An attempt to finish the PROJECT: TIC TAC TOE on [TheOdinProject](https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/tic-tac-toe), built on Ruby. This game can be played from command line. You can follow Installation guide below to install this on your computer or try this the demo here https://replit.com/@nguyenlekhtn/Ruby-Tic-tac-toe (type `ruby lib/tic_tac_toe.rb` into Console to play).
 
 ## Installation
 
