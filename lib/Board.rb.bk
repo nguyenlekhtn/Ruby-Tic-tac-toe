@@ -1,0 +1,69 @@
+class Board
+  CONDITIONS = [
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ]
+  SIZE = 9
+
+  attr_reader :board
+
+  def initialize
+    @board = Array.new(9)
+  end
+
+  def mark(position, symbol)
+    set_value(position, symbol)
+  end
+
+  def valid?(position)
+    value = board[position].value
+    value == DEFAULT_VALUE && value.to_i.between?(0, SIZE - 1)
+  end
+
+  def print_board
+    0.upto(2) do |i|
+      (i * 3).upto(i * 3 + 2) do |j|
+        value = board[j].value == '' ? '.' : board[j].value
+        print value + ' '
+      end
+      print "\n"
+    end
+  end
+
+  def is_3_equal?(idx_arr)
+    a, b, c = idx_arr.map { |idx| board[idx].value }
+    result = if a == b && a == c && a != DEFAULT_VALUE
+               true
+             else
+               false
+             end
+    puts ''
+    result
+  end
+
+  def matched?
+    CONDITIONS.any? { |condition| is_3_equal?(condition) }
+  end
+
+  def set_value(position, value)
+    if position.between?(0, SIZE)
+      @board[position].value = value
+    else
+      raise 'INVALID POSITION'
+    end
+  end
+
+  def isFull?
+    if board.all? { |cell| cell.value != DEFAULT_VALUE }
+      true
+    else
+      false
+    end
+  end
+end
