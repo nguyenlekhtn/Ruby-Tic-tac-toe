@@ -20,10 +20,6 @@ class Game
     check_end_case
   end
 
-  def verify_input(player_input)
-    board.in_range?(player_input) && board.available?(player_input)
-  end
-
   private
 
   attr_accessor :current_active_player_index
@@ -40,6 +36,11 @@ class Game
   def switch_active_player
     self.current_active_player_index = current_active_player_index.zero? ? 1 : 0
   end
+
+  def verify_input(player_input)
+    board.in_range?(player_input) && board.available?(player_input)
+  end
+
 
   def play_round
     switch_active_player

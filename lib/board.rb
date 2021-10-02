@@ -38,6 +38,7 @@ class Board
 
   def any_line_match?
     CONDITIONS.any? { |condition| same_symbol?(condition) }
+    Str
   end
 
   def print_board
