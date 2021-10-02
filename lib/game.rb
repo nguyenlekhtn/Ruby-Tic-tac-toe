@@ -16,7 +16,6 @@ class Game
 
   attr_reader :board, :players
   attr_accessor :current_active_player_index
-  private :current_active_player_index
 
   def start_game
     introduction
