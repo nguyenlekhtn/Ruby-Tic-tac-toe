@@ -106,7 +106,15 @@ describe Game do
       subject(:game_switch) { described_class.new(current_active_player_index: 0) }
 
       it 'changes to 1' do
-        expect { game_switch.switch_active_player }.to change { }
+        expect { game_switch.switch_active_player }.to change { game_switch.current_active_player_index }.from(0).to(1)
+      end
+    end
+
+    context 'when current_active_player_index is 1' do
+      subject(:game_switch) { described_class.new(current_active_player_index: 1) }
+
+      it 'changes to 0' do
+        expect { game_switch.switch_active_player }.to change { game_switch.current_active_player_index }.from(1).to(0)
       end
     end
   end
