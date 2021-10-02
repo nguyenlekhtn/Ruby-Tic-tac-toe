@@ -11,3 +11,7 @@ Layout/LineLength:
   Exclude:
     - 'spec/*'
     - 'spec_answers/*'
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
+Style/Documentation:
+  Enabled: false
