@@ -26,7 +26,7 @@ class Game
   attr_reader :board, :players
 
   def check_end_case
-    if board.full?
+    if board.any_line_match?
       announce_tie
     else
       announce_winner
@@ -87,7 +87,7 @@ class Game
   end
 
   def game_over?
-    board.full? || board.any_line_match?
+    board.any_line_match? || board.full?
   end
 
   def introduction
