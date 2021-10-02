@@ -12,8 +12,8 @@ class Board
     [2, 4, 6]
   ].freeze
 
-  def initialize
-    @board = Array.new(size)
+  def initialize(board: Array.new(size))
+    @board = board
   end
 
   def size
@@ -38,7 +38,6 @@ class Board
 
   def any_line_match?
     CONDITIONS.any? { |condition| same_symbol?(condition) }
-    Str
   end
 
   def print_board

@@ -7,12 +7,16 @@ require_relative 'player'
 
 class Game
   def initialize(board: Board.new,
-                 current_active_player_index: 0,
+                 current_active_player_index: 1,
                  players: [Player.new(symbol: 'x', game: self), Player.new(symbol: 'o', game: self)])
     @board = board
     @current_active_player_index = current_active_player_index
     @players = players
   end
+
+  attr_reader :board, :players
+  attr_accessor :current_active_player_index
+  private :current_active_player_index
 
   def start_game
     introduction
@@ -20,16 +24,11 @@ class Game
     check_end_case
   end
 
-  private
-
-  attr_accessor :current_active_player_index
-  attr_reader :board, :players
-
   def check_end_case
     if board.any_line_match?
-      announce_tie
-    else
       announce_winner
+    else
+      announce_tie
     end
   end
 
@@ -37,10 +36,9 @@ class Game
     self.current_active_player_index = current_active_player_index.zero? ? 1 : 0
   end
 
-  def verify_input(player_input)
+  private def verify_input(player_input)
     board.in_range?(player_input) && board.available?(player_input)
   end
-
 
   def play_round
     switch_active_player
@@ -50,8 +48,9 @@ class Game
     mark_board(position)
   end
 
-  def round_introduction
+  private def round_introduction
     puts <<~MSG
+    
       Player #{current_active_player_index}'s turn
       Please type the number of cell you want to mark:
     MSG
@@ -66,9 +65,9 @@ class Game
     current_active_player.player_input(condition_lambda)
   end
 
-  def available_choice
-    board.available_positions
-  end
+  # def available_choice
+  #   board.available_positions
+  # end
 
   def current_active_player
     players[current_active_player_index]
@@ -78,11 +77,11 @@ class Game
     board.mark(position: position, value: current_active_player.symbol)
   end
 
-  def announce_tie
+  private def announce_tie
     puts 'Board is full. No one won'
   end
 
-  def announce_winner
+  private def announce_winner
     puts "Player #{current_active_player_index} won."
   end
 
@@ -90,7 +89,7 @@ class Game
     board.any_line_match? || board.full?
   end
 
-  def introduction
+  private def introduction
     puts <<~MSG
       Welcome to tic-tac-toe game
     MSG
