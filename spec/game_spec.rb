@@ -121,19 +121,15 @@ describe Game do
   end
 
   describe '#player_input' do
-    let(:player0) { instance_double(Player) }
-    let(:player1) { instance_double(Player) }
-    subject(:game_player) { described_class.new(players: [player0, player1]) }
-    let(:condition) { instance_double(Proc) }
-
+    let(:player) { double('player') }
+    subject(:game_player) { described_class.new }
 
     before do
-      allow(game_player).to receive(:current_active_player).and_return(player0)
-      allow(game_player).to receive(:method).with(:verify_input).and_return(condition)
+      allow(game_player).to receive(:current_active_player).and_return(player)
     end
 
     it 'sends :player_input to current_active_player' do
-      expect(player0).to receive(:player_input).with(condition)
+      expect(player).to receive(:player_input)
       game_player.player_input
     end
   end
