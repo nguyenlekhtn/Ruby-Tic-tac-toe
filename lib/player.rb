@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 class Player
-  attr_reader :symbol, :game
+  attr_reader :symbol
 
-  def initialize(symbol:, game:)
+  def initialize(symbol)
     @symbol = symbol
-    @game = game
   end
 
   def player_input(condition_lambda)
@@ -21,9 +20,7 @@ class Player
     end
   end
 
-  private
-
-  def verify_input(input:, condition:)
+  private def verify_input(input:, condition:)
     return input if condition.call(input) == true
   end
 end
