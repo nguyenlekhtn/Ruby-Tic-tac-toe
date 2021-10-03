@@ -35,10 +35,6 @@ class Game
     self.current_active_player_index = current_active_player_index.zero? ? 1 : 0
   end
 
-  def input_valid?(player_input)
-    board.in_range?(player_input) && board.available?(player_input)
-  end
-
   def play_round
     switch_active_player
     print_board
@@ -61,6 +57,10 @@ class Game
 
   def player_input
     current_active_player.player_input
+  end
+
+  def input_valid?(player_input)
+    board.in_range?(player_input) && board.available?(player_input)
   end
 
   def current_active_player
