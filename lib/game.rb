@@ -8,7 +8,7 @@ require_relative 'player'
 class Game
   def initialize(board: Board.new,
                  current_active_player_index: 1,
-                 players: [Player.new('x'), Player.new('o')])
+                 players: [Player.new('x', self), Player.new('o', self)])
     @board = board
     @current_active_player_index = current_active_player_index
     @players = players
