@@ -8,7 +8,7 @@ require_relative 'player'
 class Game
   def initialize(board: Board.new,
                  current_active_player_index: 1,
-                 players: [Player.new(symbol: 'x', game: self), Player.new(symbol: 'o', game: self)])
+                 players: [Player.new('x'), Player.new('o')])
     @board = board
     @current_active_player_index = current_active_player_index
     @players = players
@@ -64,16 +64,16 @@ class Game
     current_active_player.player_input(condition_lambda)
   end
 
-  # def available_choice
-  #   board.available_positions
-  # end
-
   def current_active_player
     players[current_active_player_index]
   end
 
   def mark_board(position)
-    board.mark(position: position, value: current_active_player.symbol)
+    board.mark(position: position, value: current_active_player_symbol)
+  end
+
+  def current_active_player_symbol
+    current_active_player.symbol
   end
 
   private def announce_tie
