@@ -28,10 +28,6 @@ class Board
     board[position]
   end
 
-  # def valid_coord(row, col)
-  #   row.match(/^\d+$/) && col.match(/^\d+$/) && in_range(row: row, col: col)
-  # end
-
   def same_symbol?(positions)
     positions.all? { |position| cell(position) && cell(position) == cell(positions[0]) }
   end
