@@ -35,7 +35,7 @@ class Game
     self.current_active_player_index = current_active_player_index.zero? ? 1 : 0
   end
 
-  private def verify_input(player_input)
+  def input_valid?(player_input)
     board.in_range?(player_input) && board.available?(player_input)
   end
 
@@ -49,7 +49,7 @@ class Game
 
   private def round_introduction
     puts <<~MSG
-    
+
       Player #{current_active_player_index}'s turn
       Please type the number of cell you want to mark:
     MSG
@@ -60,8 +60,7 @@ class Game
   end
 
   def player_input
-    condition_lambda = method(:verify_input)
-    current_active_player.player_input(condition_lambda)
+    current_active_player.player_input
   end
 
   def current_active_player
