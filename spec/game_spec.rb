@@ -1,5 +1,6 @@
 require_relative '../lib/game'
 require_relative '../lib/board'
+require_relative '../lib/player'
 
 describe Game do
   describe 'win conditions' do
@@ -115,6 +116,89 @@ describe Game do
 
       it 'changes to 0' do
         expect { game_switch.switch_active_player }.to change { game_switch.current_active_player_index }.from(1).to(0)
+      end
+    end
+  end
+
+  describe '#player_input' do
+    let(:player0) { instance_double(Player) }
+    let(:player1) { instance_double(Player) }
+    subject(:game_player) { described_class.new(players: [player0, player1]) }
+    let(:condition) { instance_double(Proc) }
+
+
+    before do
+      allow(game_player).to receive(:current_active_player).and_return(player0)
+      allow(game_player).to receive(:method).with(:verify_input).and_return(condition)
+    end
+
+    it 'sends :player_input to current_active_player' do
+      expect(player0).to receive(:player_input).with(condition)
+      game_player.player_input
+    end
+  end
+
+  describe '#mark_board' do
+    let(:board) { instance_double(Board) }
+    subject(:game_mark) { described_class.new(board: board) }
+
+    before do
+      allow(game_mark).to receive(:current_active_player_symbol).and_return('x')
+    end
+    it 'send mark message to board with position from parameter and value from current_active_player_symbol' do
+      expect(board).to receive(:mark).with(position: 0, value: 'x')
+      game_mark.mark_board(0)
+    end
+  end
+
+  describe '#current_active_player_symbol' do
+    subject(:game_current) { described_class.new }
+    let(:player) { instance_double(Player) }
+
+    before do
+      allow(game_current).to receive(:current_active_player).and_return(player)
+    end
+
+    it 'send symbol message to current_active_player' do
+      expect(player).to receive(:symbol)
+      game_current.current_active_player_symbol
+    end
+  end
+
+  describe '#game_over?' do
+    subject(:game_over) { described_class.new(board: board) }
+    let(:board) { instance_double(Board) }
+
+    context 'when board have any_line_match' do
+      before do
+        allow(board).to receive(:any_line_match?).and_return(true)
+      end
+
+      it 'is game over' do
+        expect(game_over).to be_game_over
+      end
+    end
+
+    context 'when board doesn\'t have any_line_match but board is full' do
+      before do
+        allow(board).to receive(:any_line_match?).and_return(false)
+        allow(board).to receive(:full?).and_return(true)
+      end
+
+      it 'is game over' do
+        expect(game_over).to be_game_over
+      end
+    end
+
+    context 'when board neither have any_line_match nor full' do
+
+      before do
+        allow(board).to receive(:any_line_match?).and_return(false)
+        allow(board).to receive(:full?).and_return(false)
+      end
+
+      it 'is not game over' do
+        expect(game_over).not_to be_game_over
       end
     end
   end
