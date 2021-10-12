@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 require_relative 'board'
 require_relative 'player'
 
@@ -47,7 +45,7 @@ class Game
     puts <<~MSG
 
       Player #{current_active_player_index}'s turn
-      Please type the number of cell you want to mark:
+      Please type cell number(0 - 8) you want to mark:
     MSG
   end
 
